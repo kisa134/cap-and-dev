@@ -22,7 +22,7 @@ import ConsultingProduct from './features/products/ConsultingProduct';
 
 export const Router: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/cap-and-dev">
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Landing />} />
