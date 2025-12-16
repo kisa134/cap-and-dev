@@ -107,61 +107,116 @@ export const CONTENT = {
   capital: {
     hero: {
       title: "Investment Founded on Principles, Not Predictions.",
-      subtitle: "Systematic Capital Management | Transparent Reporting | Risk Minimization"
+      subtitle: "Access systematic, non-correlated alpha through our quantitative investment vehicles.",
+      cta: {
+        request: "Request Access",
+        login: "Investor Login"
+      }
     },
-    intro: {
+    fpf: {
       fact1: "Traditional asset management relies on forecasting—an inherently flawed approach in complex, non-linear markets. This speculative model consistently fails to deliver predictable returns and exposes capital to systemic risks.",
       promise: "At COGITO, we replace speculation with systemization. Our investment vehicles are engineered to deliver consistent alpha by exploiting market structure, not by predicting its direction. We provide qualified investors with direct access to a framework of principle-driven strategies designed for long-term capital preservation and growth.",
       fact2: "Our performance is not based on discretionary decisions but on robust, mathematically-grounded models. Each strategy undergoes rigorous backtesting and operates within strict risk management protocols. Investors receive transparent, real-time reporting via a dedicated dashboard, ensuring full clarity on capital allocation and performance metrics."
     },
-    products: {
-      vector30: {
-        tier: "Tier B",
-        name: "Vector 30",
-        yield: "30-36% APY",
-        lock: "30 days",
-        settlement: "Monthly",
-        variance: "Low",
-        minimum: "$1,000",
-        description: "Stable allocation product with fixed 30-36% APY yield. Conservative variance profile. Institutional grade settlement infrastructure."
-      },
-      vector60: {
-        tier: "Tier A",
-        name: "Vector 60",
-        yield: "60% APY",
-        lock: "90 days",
-        settlement: "Quarterly",
-        variance: "Moderate",
-        minimum: "$5,000",
-        description: "Balanced allocation product with 60% APY target. Moderate variance. Optimized for growth capital. Quarterly liquidity windows."
-      },
-      vectorAlpha: {
-        tier: "Tier S",
-        name: "Vector Alpha",
-        yield: ">100% APY",
-        lock: "180 days",
-        settlement: "Semi-Annual",
-        variance: "TOTAL LOSS POSSIBLE",
-        minimum: "$10,000",
-        description: "Aggressive product with >100% APY potential. HIGH VARIANCE: Total capital loss possible. Requires risk acceptance protocol."
+    vehicles: {
+      title: "Systematic Strategies",
+      strategies: [
+        {
+          name: "COGITO Delta Neutral",
+          description: "A market-neutral strategy designed to extract alpha from digital asset volatility, uncorrelated to market direction.",
+          metrics: {
+            assetClass: "Digital Assets",
+            targetSharpe: "> 2.0",
+            maxDrawdown: "< 15%",
+            correlation: "< 0.1"
+          }
+        },
+        {
+          name: "COGITO Volatility Arbitrage",
+          description: "Systematic exploitation of implied vs. realized volatility spreads across multiple asset classes.",
+          metrics: {
+            assetClass: "Multi-Asset",
+            targetSharpe: "> 1.8",
+            maxDrawdown: "< 20%",
+            correlation: "< 0.15"
+          }
+        },
+        {
+          name: "COGITO Liquidity Extraction",
+          description: "High-frequency strategy capitalizing on microstructure inefficiencies and order flow imbalances.",
+          metrics: {
+            assetClass: "Digital Assets",
+            targetSharpe: "> 2.5",
+            maxDrawdown: "< 10%",
+            correlation: "< 0.05"
+          }
+        }
+      ]
+    },
+    performance: {
+      title: "Data-Driven Performance",
+      metrics: {
+        ytdReturn: "+47.23%",
+        cagr3Year: "+38.67%",
+        firmwideSharpe: "2.34",
+        totalAUM: "$24,750,000"
       }
     },
-    form: {
-      title: "Initiate Protocol",
-      fullName: "Full Name",
-      email: "Email",
-      capitalSize: "Capital Size",
-      capitalOptions: [
-        "< $10,000",
-        "$10,000 - $50,000",
-        "$50,000 - $250,000",
-        "$250,000 - $1,000,000",
-        "> $1,000,000"
-      ],
-      telegram: "Telegram Handle",
-      disclaimer: "I acknowledge variance disclosure",
-      submit: "Submit Application",
-      success: "Application submitted successfully. We will contact you within 24 hours."
+    onboarding: {
+      title: "The Onboarding Protocol",
+      steps: [
+        {
+          number: "01",
+          title: "Application & Suitability Assessment",
+          description: "We accept applications from accredited and institutional investors. A brief assessment ensures our strategies align with your financial objectives."
+        },
+        {
+          number: "02",
+          title: "Legal & Compliance (KYC/AML)",
+          description: "Our process is fully compliant with international financial regulations. We conduct standard KYC/AML verification through a secure portal."
+        },
+        {
+          number: "03",
+          title: "Strategy Allocation & Funding",
+          description: "Upon approval, you receive access to our portal to allocate capital to one or more of our systematic strategies."
+        },
+        {
+          number: "04",
+          title: "Dashboard Access & Transparent Reporting",
+          description: "Gain access to your private dashboard for real-time performance tracking, monthly statements, and direct communication with our team."
+        }
+      ]
+    },
+    finalCTA: {
+      title: "Begin Your Allocation.",
+      subtitle: "Ready to move beyond speculation? Request access to our institutional-grade investment framework.",
+      buttonText: "Request Access"
+    },
+    requestModal: {
+      title: "Application for Access",
+      fields: {
+        fullName: "Full Name",
+        email: "Email",
+        country: "Country of Residence",
+        investorStatus: "Investor Status",
+        investorStatusOptions: [
+          "Accredited Investor",
+          "Institutional Representative",
+          "Family Office",
+          "Other Qualified Investor"
+        ],
+        estimatedAllocation: "Estimated Allocation (Optional)"
+      },
+      disclaimer: "Access is limited to qualified investors subject to legal and regulatory requirements.",
+      submitButton: "Submit Application"
+    },
+    loginModal: {
+      title: "Investor Portal Login",
+      fields: {
+        email: "Email",
+        password: "Password"
+      },
+      submitButton: "Access Dashboard"
     }
   },
 

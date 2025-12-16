@@ -1,284 +1,326 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CONTENT } from '../../constants/content';
-import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { RegisterModal } from '../../components/modals/RegisterModal';
-import { LoginModal } from '../../components/modals/LoginModal';
+import { Modal } from '../../components/ui/Modal';
+import { Input } from '../../components/ui/Input';
+import { Select } from '../../components/ui/Select';
 import { Footer } from '../../components/Footer';
+import { WireframeObject } from '../../components/effects/WireframeObject';
+import { EquityCurve } from '../../components/effects/EquityCurve';
 
 export default function CapitalPage() {
-  const navigate = useNavigate();
   const content = CONTENT.capital;
-  const [showRegister, setShowRegister] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [requestFormData, setRequestFormData] = useState({
     fullName: '',
     email: '',
-    capitalSize: '',
-    telegram: '',
-    disclaimer: false,
+    country: '',
+    investorStatus: '',
+    estimatedAllocation: '',
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [loginFormData, setLoginFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRequestSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    console.log('Request submitted:', requestFormData);
+    setShowRequestModal(false);
+  };
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Login submitted:', loginFormData);
+    setShowLoginModal(false);
   };
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <div className="border-b border-emerald-500/20 bg-gradient-to-b from-emerald-950/20 to-transparent">
-        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4 text-emerald-400">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <WireframeObject />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-tight">
             {content.hero.title}
           </h1>
-          <p className="text-gray-400 text-sm md:text-base tracking-wider uppercase font-mono">
+          <p className="text-xl md:text-2xl text-gray-400 font-light tracking-wide mb-12 max-w-3xl mx-auto">
             {content.hero.subtitle}
           </p>
-        </div>
-      </div>
 
-      {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Vector 30 */}
-          <div className="border border-emerald-500/30 rounded-lg p-8 bg-emerald-500/5 hover:border-emerald-500/60 hover:bg-emerald-500/10 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-emerald-400/60 uppercase tracking-wider">
-                {content.products.vector30.tier}
-              </span>
-              <span className="text-xs font-mono text-gray-500">
-                {content.products.vector30.variance}
-              </span>
-            </div>
-
-            <h3 className="text-3xl font-bold mb-2 text-emerald-400">
-              {content.products.vector30.name}
-            </h3>
-
-            <div className="text-5xl font-bold mb-8 text-white group-hover:text-emerald-300 transition-colors">
-              {content.products.vector30.yield}
-            </div>
-
-            <div className="space-y-3 mb-8 text-sm">
-              <div className="flex justify-between text-gray-400">
-                <span>Lock Period:</span>
-                <span className="text-white">{content.products.vector30.lock}</span>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <span>Settlement:</span>
-                <span className="text-white">{content.products.vector30.settlement}</span>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <span>Minimum:</span>
-                <span className="text-emerald-400">{content.products.vector30.minimum}</span>
-              </div>
-            </div>
-
-            <p className="text-gray-400 text-sm leading-relaxed">
-              {content.products.vector30.description}
-            </p>
-          </div>
-
-          {/* Vector 60 */}
-          <div className="border border-emerald-500/40 rounded-lg p-8 bg-emerald-500/10 hover:border-emerald-500/70 hover:bg-emerald-500/15 transition-all duration-300 group md:scale-105">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-emerald-300/80 uppercase tracking-wider">
-                {content.products.vector60.tier}
-              </span>
-              <span className="text-xs font-mono text-yellow-500">
-                {content.products.vector60.variance}
-              </span>
-            </div>
-
-            <h3 className="text-3xl font-bold mb-2 text-emerald-300">
-              {content.products.vector60.name}
-            </h3>
-
-            <div className="text-5xl font-bold mb-8 text-white group-hover:text-emerald-200 transition-colors">
-              {content.products.vector60.yield}
-            </div>
-
-            <div className="space-y-3 mb-8 text-sm">
-              <div className="flex justify-between text-gray-400">
-                <span>Lock Period:</span>
-                <span className="text-white">{content.products.vector60.lock}</span>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <span>Settlement:</span>
-                <span className="text-white">{content.products.vector60.settlement}</span>
-              </div>
-              <div className="flex justify-between text-gray-400">
-                <span>Minimum:</span>
-                <span className="text-emerald-300">{content.products.vector60.minimum}</span>
-              </div>
-            </div>
-
-            <p className="text-gray-300 text-sm leading-relaxed">
-              {content.products.vector60.description}
-            </p>
-          </div>
-
-          {/* Vector Alpha */}
-          <div className="border border-purple-500/40 rounded-lg p-8 bg-gradient-to-br from-purple-500/10 via-emerald-500/10 to-cyan-500/10 hover:border-purple-500/70 transition-all duration-300 group relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-emerald-500/0 to-cyan-500/0 group-hover:from-purple-500/20 group-hover:via-emerald-500/20 group-hover:to-cyan-500/20 transition-all duration-700" />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-mono text-purple-300 uppercase tracking-wider">
-                  {content.products.vectorAlpha.tier}
-                </span>
-                <span className="text-xs font-mono text-red-400 font-bold">
-                  {content.products.vectorAlpha.variance}
-                </span>
-              </div>
-
-              <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                {content.products.vectorAlpha.name}
-              </h3>
-
-              <div className="text-5xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                {content.products.vectorAlpha.yield}
-              </div>
-
-              <div className="space-y-3 mb-8 text-sm">
-                <div className="flex justify-between text-gray-400">
-                  <span>Lock Period:</span>
-                  <span className="text-white">{content.products.vectorAlpha.lock}</span>
-                </div>
-                <div className="flex justify-between text-gray-400">
-                  <span>Settlement:</span>
-                  <span className="text-white">{content.products.vectorAlpha.settlement}</span>
-                </div>
-                <div className="flex justify-between text-gray-400">
-                  <span>Minimum:</span>
-                  <span className="text-purple-400">{content.products.vectorAlpha.minimum}</span>
-                </div>
-              </div>
-
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {content.products.vectorAlpha.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-4">
-            <div className="h-px w-20 bg-gradient-to-r from-transparent to-emerald-500" />
-            <span className="text-emerald-400 font-mono text-sm tracking-[0.3em] uppercase">
-              {content.form.title}
-            </span>
-            <div className="h-px w-20 bg-gradient-to-l from-transparent to-emerald-500" />
-          </div>
-        </div>
-      </div>
-
-      {/* Application Form */}
-      <div className="max-w-2xl mx-auto px-6 pb-20">
-        <form onSubmit={handleSubmit} className="border border-emerald-500/30 rounded-lg p-8 bg-emerald-500/5 space-y-6">
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.fullName}
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              className="w-full bg-black border border-emerald-500/30 rounded px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.email}
-            </label>
-            <input
-              type="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full bg-black border border-emerald-500/30 rounded px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.capitalSize}
-            </label>
-            <select
-              required
-              value={formData.capitalSize}
-              onChange={(e) => setFormData({ ...formData, capitalSize: e.target.value })}
-              className="w-full bg-black border border-emerald-500/30 rounded px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => setShowRequestModal(true)}
             >
-              <option value="">Select range</option>
-              {content.form.capitalOptions.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
+              {content.hero.cta.request}
+            </Button>
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => setShowLoginModal(true)}
+            >
+              {content.hero.cta.login}
+            </Button>
           </div>
+        </div>
+      </section>
 
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.telegram}
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.telegram}
-              onChange={(e) => setFormData({ ...formData, telegram: e.target.value })}
-              className="w-full bg-black border border-emerald-500/30 rounded px-4 py-3 text-white focus:border-emerald-500 focus:outline-none transition-colors"
-              placeholder="@username"
-            />
-          </div>
+      <section className="max-w-5xl mx-auto px-6 py-32">
+        <div className="border-l-2 border-emerald-500/20 pl-12 space-y-8">
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.fact1}
+          </p>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.promise}
+          </p>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.fact2}
+          </p>
+        </div>
+      </section>
 
-          <div className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              required
-              checked={formData.disclaimer}
-              onChange={(e) => setFormData({ ...formData, disclaimer: e.target.checked })}
-              className="mt-1 w-4 h-4 bg-black border border-emerald-500/30 rounded focus:ring-emerald-500"
-            />
-            <label className="text-sm text-gray-400">
-              {content.form.disclaimer}
-            </label>
-          </div>
+      <section className="max-w-7xl mx-auto px-6 py-32">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.vehicles.title}
+        </h2>
 
-          {submitted && (
-            <div className="bg-emerald-500/20 border border-emerald-500/50 rounded p-4 text-emerald-300 text-sm">
-              {content.form.success}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {content.vehicles.strategies.map((strategy, idx) => (
+            <div
+              key={idx}
+              className="border border-gray-800 bg-black p-8 hover:border-emerald-500/50 transition-all duration-300 group"
+            >
+              <h3 className="text-2xl font-bold mb-4 group-hover:text-emerald-400 transition-colors">
+                {strategy.name}
+              </h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                {strategy.description}
+              </p>
+
+              <div className="space-y-3 font-mono text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">ASSET CLASS:</span>
+                  <span className="text-white">{strategy.metrics.assetClass}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">TARGET SHARPE:</span>
+                  <span className="text-emerald-400">{strategy.metrics.targetSharpe}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">MAX DRAWDOWN:</span>
+                  <span className="text-white">{strategy.metrics.maxDrawdown}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">CORRELATION (SPX):</span>
+                  <span className="text-white">{strategy.metrics.correlation}</span>
+                </div>
+              </div>
+
+              <Button
+                variant="secondary"
+                size="sm"
+                fullWidth
+                onClick={() => setShowRequestModal(true)}
+                className="mt-8"
+              >
+                Request Fact Sheet
+              </Button>
             </div>
-          )}
+          ))}
+        </div>
+      </section>
 
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold py-4 rounded transition-all duration-300 transform hover:scale-[1.02]"
-          >
-            {content.form.submit}
-          </button>
+      <section className="max-w-7xl mx-auto px-6 py-32">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.performance.title}
+        </h2>
 
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="w-full border border-emerald-500/30 hover:border-emerald-500/60 text-emerald-400 font-semibold py-3 rounded transition-all duration-300"
-          >
-            Back to Home
-          </button>
-        </form>
-      </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="order-2 lg:order-1">
+            <EquityCurve />
+          </div>
+
+          <div className="order-1 lg:order-2 space-y-8">
+            <div>
+              <div className="text-sm font-mono text-gray-500 mb-2">AGGREGATE YTD RETURN</div>
+              <div className="text-5xl font-mono font-bold text-emerald-400">
+                {content.performance.metrics.ytdReturn}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-mono text-gray-500 mb-2">3-YEAR CAGR</div>
+              <div className="text-5xl font-mono font-bold text-emerald-400">
+                {content.performance.metrics.cagr3Year}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-mono text-gray-500 mb-2">FIRM-WIDE SHARPE</div>
+              <div className="text-5xl font-mono font-bold text-emerald-400">
+                {content.performance.metrics.firmwideSharpe}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-sm font-mono text-gray-500 mb-2">TOTAL AUM</div>
+              <div className="text-5xl font-mono font-bold text-white">
+                {content.performance.metrics.totalAUM}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 py-32">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.onboarding.title}
+        </h2>
+
+        <div className="space-y-16">
+          {content.onboarding.steps.map((step, idx) => (
+            <div key={idx} className="flex gap-8">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 flex items-center justify-center border-2 border-emerald-500/30 text-3xl font-bold text-emerald-500/60">
+                  {step.number}
+                </div>
+              </div>
+
+              <div className="flex-1 pt-2">
+                <h3 className="text-2xl font-bold mb-4">{step.title}</h3>
+                <p className="text-gray-400 leading-relaxed">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 py-32 text-center border-t border-gray-800">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-8">
+          {content.finalCTA.title}
+        </h2>
+        <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
+          {content.finalCTA.subtitle}
+        </p>
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={() => setShowRequestModal(true)}
+        >
+          {content.finalCTA.buttonText}
+        </Button>
+      </section>
 
       <Footer />
+
+      <Modal
+        isOpen={showRequestModal}
+        onClose={() => setShowRequestModal(false)}
+        title={content.requestModal.title}
+      >
+        <form onSubmit={handleRequestSubmit} className="space-y-6">
+          <Input
+            label={content.requestModal.fields.fullName}
+            type="text"
+            required
+            value={requestFormData.fullName}
+            onChange={(e) =>
+              setRequestFormData({ ...requestFormData, fullName: e.target.value })
+            }
+          />
+
+          <Input
+            label={content.requestModal.fields.email}
+            type="email"
+            required
+            value={requestFormData.email}
+            onChange={(e) =>
+              setRequestFormData({ ...requestFormData, email: e.target.value })
+            }
+          />
+
+          <Input
+            label={content.requestModal.fields.country}
+            type="text"
+            required
+            value={requestFormData.country}
+            onChange={(e) =>
+              setRequestFormData({ ...requestFormData, country: e.target.value })
+            }
+          />
+
+          <Select
+            label={content.requestModal.fields.investorStatus}
+            required
+            value={requestFormData.investorStatus}
+            onChange={(e) =>
+              setRequestFormData({ ...requestFormData, investorStatus: e.target.value })
+            }
+            options={[
+              { value: '', label: 'Select status' },
+              ...content.requestModal.fields.investorStatusOptions.map((opt) => ({
+                value: opt,
+                label: opt,
+              })),
+            ]}
+          />
+
+          <Input
+            label={content.requestModal.fields.estimatedAllocation}
+            type="text"
+            value={requestFormData.estimatedAllocation}
+            onChange={(e) =>
+              setRequestFormData({
+                ...requestFormData,
+                estimatedAllocation: e.target.value,
+              })
+            }
+          />
+
+          <p className="text-xs text-gray-400">{content.requestModal.disclaimer}</p>
+
+          <Button type="submit" variant="primary" fullWidth>
+            {content.requestModal.submitButton}
+          </Button>
+        </form>
+      </Modal>
+
+      <Modal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        title={content.loginModal.title}
+      >
+        <form onSubmit={handleLoginSubmit} className="space-y-6">
+          <Input
+            label={content.loginModal.fields.email}
+            type="email"
+            required
+            value={loginFormData.email}
+            onChange={(e) =>
+              setLoginFormData({ ...loginFormData, email: e.target.value })
+            }
+          />
+
+          <Input
+            label={content.loginModal.fields.password}
+            type="password"
+            required
+            value={loginFormData.password}
+            onChange={(e) =>
+              setLoginFormData({ ...loginFormData, password: e.target.value })
+            }
+          />
+
+          <Button type="submit" variant="primary" fullWidth>
+            {content.loginModal.submitButton}
+          </Button>
+        </form>
+      </Modal>
     </div>
   );
 }
