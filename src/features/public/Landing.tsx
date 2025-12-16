@@ -9,12 +9,18 @@ export const Landing: React.FC = () => {
 
   return (
     <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col md:flex-row font-sans">
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none flex flex-col gap-4">
         <button
           onClick={() => navigate('/manifesto')}
-          className="pointer-events-auto bg-black text-white border border-white/30 px-8 py-3 font-mono text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-500 uppercase backdrop-blur-md"
+          className="pointer-events-auto bg-black text-white border border-white/30 px-8 py-3 font-mono text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 uppercase backdrop-blur-md"
         >
-          [ {content.manifesto} ]
+          [ {content.aboutUs} ]
+        </button>
+        <button
+          onClick={() => navigate('/work-with-us')}
+          className="pointer-events-auto bg-black text-white border border-white/30 px-8 py-3 font-mono text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 uppercase backdrop-blur-md"
+        >
+          [ {content.workWithUs} ]
         </button>
       </div>
 

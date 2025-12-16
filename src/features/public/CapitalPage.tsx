@@ -1,33 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT } from '../../constants/content';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { RegisterModal } from '../../components/modals/RegisterModal';
+import { LoginModal } from '../../components/modals/LoginModal';
+import { Footer } from '../../components/Footer';
 
 export default function CapitalPage() {
   const navigate = useNavigate();
   const content = CONTENT.capital;
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    capitalSize: '',
-    telegram: '',
-    disclaimer: false
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        fullName: '',
-        email: '',
-        capitalSize: '',
-        telegram: '',
-        disclaimer: false
-      });
-    }, 3000);
-  };
+  const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   return (
     <div className="min-h-screen bg-black text-white">

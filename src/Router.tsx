@@ -4,12 +4,18 @@ import { Landing } from './features/public/Landing';
 import Manifesto from './features/public/Manifesto';
 import CapitalPage from './features/public/CapitalPage';
 import EpistemePage from './features/public/EpistemePage';
+import Contacts from './features/public/Contacts';
 import { Login } from './features/auth/Login';
 import { Register } from './features/auth/Register';
 import { AuthGuard } from './features/auth/AuthGuard';
 import { AppShell } from './layouts/AppShell';
 import { InvestorDashboard } from './features/investor/InvestorDashboard';
 import { TraderDashboard } from './features/trader/TraderDashboard';
+import WorkWithUs from './features/partnership/WorkWithUs';
+import Career from './features/partnership/Career';
+import Agents from './features/partnership/Agents';
+import Referral from './features/partnership/Referral';
+import PropTrading from './features/proptrading/PropTrading';
 
 export const Router: React.FC = () => {
   return (
@@ -20,8 +26,16 @@ export const Router: React.FC = () => {
         <Route path="/manifesto" element={<Manifesto />} />
         <Route path="/capital" element={<CapitalPage />} />
         <Route path="/episteme" element={<EpistemePage />} />
+        <Route path="/contacts" element={<Contacts />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+
+        {/* Partnership Routes */}
+        <Route path="/work-with-us" element={<WorkWithUs />} />
+        <Route path="/career" element={<Career />} />
+        <Route path="/agents" element={<Agents />} />
+        <Route path="/referral" element={<Referral />} />
+        <Route path="/proptrading" element={<PropTrading />} />
 
         {/* Protected Investor Routes */}
         <Route
