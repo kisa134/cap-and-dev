@@ -16,7 +16,7 @@ export const mockUsers: UserProfile[] = [
     role: 'investor',
     kyc_status: 'verified',
     tier: 'A',
-    full_name: 'Александр Петров',
+    full_name: 'Alexander Petrov',
     created_at: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date().toISOString()
   },
@@ -25,7 +25,7 @@ export const mockUsers: UserProfile[] = [
     role: 'trader',
     kyc_status: 'verified',
     tier: 'B',
-    full_name: 'Мария Соколова',
+    full_name: 'Maria Sokolova',
     created_at: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
     updated_at: new Date().toISOString()
   }
@@ -35,43 +35,43 @@ export const mockUsers: UserProfile[] = [
 export const mockProducts: Product[] = [
   {
     id: 'prod-1',
-    name: 'Vector 30 (Стабильный)',
+    name: 'Vector 30 (Stable)',
     type: 'investment',
     tier: 'B',
     yield_target: '30-36%',
     lock_period_days: 30,
     min_investment: 1000,
-    description: 'Стабильный продукт с фиксированной доходностью 30-36% годовых. Минимальный риск.',
-    risk_level: 'Низкий',
-    withdrawal_frequency: 'monthly',
+    description: 'Stable allocation product with fixed 30-36% APY yield. Conservative variance profile.',
+    risk_level: 'Low',
+    withdrawal_frequency: 'Monthly',
     active: true,
     created_at: new Date().toISOString()
   },
   {
     id: 'prod-2',
-    name: 'Vector 60 (Сбалансированный)',
+    name: 'Vector 60 (Balanced)',
     type: 'investment',
     tier: 'A',
     yield_target: '60%',
     lock_period_days: 90,
     min_investment: 5000,
-    description: 'Сбалансированный продукт с доходностью 60% годовых. Умеренный риск.',
-    risk_level: 'Средний',
-    withdrawal_frequency: 'quarterly',
+    description: 'Balanced allocation product with 60% APY target. Moderate variance.',
+    risk_level: 'Moderate',
+    withdrawal_frequency: 'Quarterly',
     active: true,
     created_at: new Date().toISOString()
   },
   {
     id: 'prod-3',
-    name: 'Vector Alpha (Высокий риск)',
+    name: 'Vector Alpha (High Risk)',
     type: 'investment',
     tier: 'S',
     yield_target: '>100%',
     lock_period_days: 180,
     min_investment: 10000,
-    description: 'Агрессивный продукт с потенциалом доходности более 100% годовых. Высокий риск.',
-    risk_level: 'Высокий',
-    withdrawal_frequency: 'semi-annual',
+    description: 'Aggressive product with >100% APY potential. HIGH VARIANCE: Total capital loss possible.',
+    risk_level: 'High',
+    withdrawal_frequency: 'Semi-Annual',
     active: true,
     created_at: new Date().toISOString()
   }
@@ -136,8 +136,8 @@ export const mockTransactions: Transaction[] = [
 // Mock Course with Lessons
 export const mockCourse: Course = {
   id: 'course-1',
-  title: 'Элементарная Структура Цены',
-  description: 'Фундаментальный курс по пониманию структуры цены на финансовых рынках.',
+  title: 'The Elementary Structure of Price',
+  description: 'Fundamental course on understanding price structure in financial markets.',
   tier_required: 'B',
   order_index: 1,
   duration_minutes: 480,
@@ -149,8 +149,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-1',
     course_id: 'course-1',
-    title: 'Введение в структуру цены',
-    content: 'Основы понимания рыночной структуры. Что такое цена и как она формируется.',
+    title: 'Introduction to Price Structure',
+    content: 'Fundamentals of market structure understanding. What is price and how it is formed.',
     order_index: 1,
     duration_minutes: 30,
     created_at: new Date().toISOString()
@@ -158,8 +158,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-2',
     course_id: 'course-1',
-    title: 'Уровни поддержки и сопротивления',
-    content: 'Изучение ключевых уровней на графике. Как определять зоны интереса.',
+    title: 'Support and Resistance Levels',
+    content: 'Study of key levels on the chart. How to identify zones of interest.',
     order_index: 2,
     duration_minutes: 45,
     created_at: new Date().toISOString()
@@ -167,8 +167,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-3',
     course_id: 'course-1',
-    title: 'Тренды и их идентификация',
-    content: 'Восходящие, нисходящие и боковые тренды. Методы определения направления рынка.',
+    title: 'Trends and Identification',
+    content: 'Uptrends, downtrends, and sideways trends. Methods for determining market direction.',
     order_index: 3,
     duration_minutes: 40,
     created_at: new Date().toISOString()
@@ -176,8 +176,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-4',
     course_id: 'course-1',
-    title: 'Свечной анализ',
-    content: 'Японские свечи и их паттерны. Сигналы разворота и продолжения тренда.',
+    title: 'Candlestick Analysis',
+    content: 'Japanese candlesticks and their patterns. Reversal and continuation signals.',
     order_index: 4,
     duration_minutes: 50,
     created_at: new Date().toISOString()
@@ -185,8 +185,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-5',
     course_id: 'course-1',
-    title: 'Объемы и ликвидность',
-    content: 'Роль объемов в ценообразовании. Анализ ликвидности рынка.',
+    title: 'Volume and Liquidity',
+    content: 'The role of volume in price formation. Market liquidity analysis.',
     order_index: 5,
     duration_minutes: 45,
     created_at: new Date().toISOString()
@@ -194,8 +194,8 @@ export const mockLessons: Lesson[] = [
   {
     id: 'lesson-6',
     course_id: 'course-1',
-    title: 'Торговые стратегии',
-    content: 'Практическое применение знаний. Разработка собственной торговой системы.',
+    title: 'Trading Strategies',
+    content: 'Practical application of knowledge. Developing your own trading system.',
     order_index: 6,
     duration_minutes: 60,
     created_at: new Date().toISOString()
@@ -235,7 +235,7 @@ export function generateEquityCurve(days: number, startBalance: number, endBalan
     const date = new Date(Date.now() - (days - i) * 24 * 60 * 60 * 1000);
     const value = startBalance + dailyChange * i + (Math.random() - 0.5) * 1000;
     data.push({
-      date: date.toLocaleDateString('ru-RU'),
+      date: date.toLocaleDateString('en-US'),
       value: Math.round(value)
     });
   }

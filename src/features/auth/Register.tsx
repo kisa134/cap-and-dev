@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Terminal, Loader2 } from 'lucide-react';
 import { authService } from '../../services/api/authService';
 import { UserRole } from '../../types/database.types';
+import { CONTENT } from '../../constants/content';
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export const Register: React.FC = () => {
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const content = CONTENT.auth.register;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export const Register: React.FC = () => {
       await authService.signUp(email, password, role, fullName);
       navigate('/auth/login');
     } catch (err: any) {
-      setError(err.message || 'Ошибка регистрации');
+      setError(err.message || 'Registration failed');
       setLoading(false);
     }
   };
@@ -34,29 +36,29 @@ export const Register: React.FC = () => {
           onClick={() => navigate('/')}
           className="absolute top-8 right-8 text-white/30 hover:text-white uppercase text-xs"
         >
-          Закрыть
+          Close
         </button>
 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4 text-white/50">
             <Terminal size={20} />
-            <span className="text-xs tracking-widest">РЕГИСТРАЦИЯ</span>
+            <span className="text-xs tracking-widest uppercase">{content.title}</span>
           </div>
           <h2 className="text-4xl font-bold tracking-tighter text-white font-sans uppercase">
-            Новый Аккаунт
+            {content.subtitle}
           </h2>
         </div>
 
         {error && (
           <div className="p-4 border border-red-500/50 bg-red-950/20 text-red-400 text-xs mb-4">
-            ОШИБКА: {error}
+            ERROR: {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-widest text-emerald-500">
-              Выберите роль
+              {content.role}
             </label>
             <div className="grid grid-cols-2 gap-4">
               <button
@@ -68,8 +70,8 @@ export const Register: React.FC = () => {
                     : 'border-white/20 text-white/60'
                 }`}
               >
-                <div className="font-bold text-sm">КАПИТАЛ</div>
-                <div className="text-xs mt-1">Инвестор</div>
+                <div className="font-bold text-sm">CAPITAL</div>
+                <div className="text-xs mt-1">{content.investor}</div>
               </button>
               <button
                 type="button"
@@ -80,29 +82,29 @@ export const Register: React.FC = () => {
                     : 'border-white/20 text-white/60'
                 }`}
               >
-                <div className="font-bold text-sm">ЭПИСТЕМА</div>
-                <div className="text-xs mt-1">Трейдер</div>
+                <div className="font-bold text-sm">EPISTEME</div>
+                <div className="text-xs mt-1">{content.trader}</div>
               </button>
             </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-widest text-white/50">
-              Полное имя
+              {content.fullName}
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="w-full bg-black border border-white/20 p-3 focus:border-emerald-500 focus:outline-none transition-colors"
-              placeholder="Иван Иванов"
+              placeholder="John Doe"
               required
             />
           </div>
 
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-widest text-white/50">
-              Email
+              {content.email}
             </label>
             <input
               type="email"
@@ -116,7 +118,7 @@ export const Register: React.FC = () => {
 
           <div className="space-y-2">
             <label className="text-xs uppercase tracking-widest text-white/50">
-              Пароль
+              {content.password}
             </label>
             <input
               type="password"
@@ -137,22 +139,22 @@ export const Register: React.FC = () => {
             {loading ? (
               <>
                 <Loader2 className="animate-spin" size={20} />
-                СОЗДАНИЕ...
+                Creating...
               </>
             ) : (
-              'Создать Аккаунт'
+              content.submit
             )}
           </button>
         </form>
 
         <div className="mt-6 pt-6 border-t border-white/10 text-center">
           <p className="text-xs text-white/40">
-            Уже есть аккаунт?{' '}
+            {content.hasAccount}{' '}
             <button
               onClick={() => navigate('/auth/login')}
               className="text-emerald-500 hover:text-emerald-400"
             >
-              Войти
+              {content.login}
             </button>
           </p>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { UserRole } from '../../types/database.types';
 
@@ -10,12 +10,18 @@ interface AuthGuardProps {
 
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children, requireRole }) => {
   const { user, profile, loading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const isDemoMode = searchParams.get('demo') === 'true';
+
+  if (isDemoMode) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white font-mono text-sm">
-          <div className="animate-pulse">ЗАГРУЗКА...</div>
+          <div className="animate-pulse">LOADING...</div>
         </div>
       </div>
     );

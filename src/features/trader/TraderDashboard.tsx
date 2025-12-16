@@ -5,6 +5,7 @@ import { coursesService } from '../../services/api/coursesService';
 import { propService } from '../../services/api/propService';
 import { Course, PropChallenge, AccessRights } from '../../types/database.types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { CONTENT } from '../../constants/content';
 
 export const TraderDashboard: React.FC = () => {
   const { profile } = useAuth();
@@ -12,6 +13,7 @@ export const TraderDashboard: React.FC = () => {
   const [challenge, setChallenge] = useState<PropChallenge | null>(null);
   const [accessRights, setAccessRights] = useState<AccessRights | null>(null);
   const [loading, setLoading] = useState(true);
+  const content = CONTENT.trader;
 
   useEffect(() => {
     if (profile?.id) {
@@ -44,7 +46,7 @@ export const TraderDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white font-mono text-sm animate-pulse">ЗАГРУЗКА ДАННЫХ...</div>
+        <div className="text-white font-mono text-sm animate-pulse">LOADING DATA...</div>
       </div>
     );
   }
@@ -53,9 +55,9 @@ export const TraderDashboard: React.FC = () => {
     <div className="p-8 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold tracking-tighter mb-2">ЭПИСТЕМА ТЕРМИНАЛ</h1>
+        <h1 className="text-4xl font-bold tracking-tighter mb-2">{content.title}</h1>
         <p className="font-mono text-xs text-white/50">
-          Трейдер: {profile?.full_name} • Статус: {accessRights?.prop_challenge_status?.toUpperCase()}
+          Trader: {profile?.full_name} • Status: {accessRights?.prop_challenge_status?.toUpperCase()}
         </p>
       </div>
 
@@ -66,10 +68,10 @@ export const TraderDashboard: React.FC = () => {
             <BookOpen className="text-cyan-400" size={24} />
           </div>
           <div className="text-3xl font-bold tracking-tight mb-1">
-            {accessRights?.has_theory_access ? 'Активен' : 'Заблокирован'}
+            {accessRights?.has_theory_access ? 'Active' : 'Locked'}
           </div>
           <div className="font-mono text-xs text-white/40 uppercase tracking-wider">
-            Доступ к Обучению
+            {content.theoryAccess}
           </div>
         </div>
 
@@ -78,10 +80,10 @@ export const TraderDashboard: React.FC = () => {
             <Wrench className="text-cyan-400" size={24} />
           </div>
           <div className="text-3xl font-bold tracking-tight mb-1">
-            {accessRights?.has_indicators_access ? 'Активен' : 'Заблокирован'}
+            {accessRights?.has_indicators_access ? 'Active' : 'Locked'}
           </div>
           <div className="font-mono text-xs text-white/40 uppercase tracking-wider">
-            Доступ к Инструментам
+            {content.toolsAccess}
           </div>
         </div>
 
@@ -181,14 +183,14 @@ export const TraderDashboard: React.FC = () => {
           </div>
 
           <button className="w-full bg-cyan-500 text-black py-3 font-bold tracking-widest uppercase hover:bg-cyan-400 transition-colors">
-            Отправить Отчет
+            {content.submitReport}
           </button>
         </div>
       )}
 
       {/* Courses */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-6">Учебные Материалы</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-6">{content.courses}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {courses.map((course) => (
             <div
@@ -204,8 +206,8 @@ export const TraderDashboard: React.FC = () => {
               <h3 className="text-lg font-bold mb-2">{course.title}</h3>
               <p className="text-sm text-white/60 mb-4">{course.description}</p>
               <div className="flex items-center justify-between font-mono text-xs text-white/40">
-                <span>{course.duration_minutes} минут</span>
-                <span className="text-cyan-400">Начать курс →</span>
+                <span>{course.duration_minutes} minutes</span>
+                <span className="text-cyan-400">{content.beginCourse} →</span>
               </div>
             </div>
           ))}
@@ -214,7 +216,7 @@ export const TraderDashboard: React.FC = () => {
 
       {/* Tools */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-6">Инструменты</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-6">{content.tools}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="border border-white/10 bg-black p-6">
             <div className="flex items-center gap-3 mb-4">
@@ -222,23 +224,23 @@ export const TraderDashboard: React.FC = () => {
               <span className="font-bold">Cogito Indicators</span>
             </div>
             <p className="text-sm text-white/60 mb-4">
-              Набор технических индикаторов для TradingView
+              Technical indicators suite for TradingView
             </p>
             <button
               className="w-full border border-white/20 py-2 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors"
               disabled={!accessRights?.has_indicators_access}
             >
-              {accessRights?.has_indicators_access ? 'Скачать' : 'Недоступно'}
+              {accessRights?.has_indicators_access ? content.download : 'Locked'}
             </button>
           </div>
 
           <div className="border border-white/10 bg-black p-6">
             <div className="flex items-center gap-3 mb-4">
               <Target className="text-amber-400" size={20} />
-              <span className="font-bold">API Ключ</span>
+              <span className="font-bold">API Key</span>
             </div>
             <p className="text-sm text-white/60 mb-4">
-              API ключ для интеграции с терминалом
+              API key for terminal integration
             </p>
             {accessRights?.api_key ? (
               <div className="bg-white/5 p-2 font-mono text-xs break-all mb-2">
@@ -246,7 +248,7 @@ export const TraderDashboard: React.FC = () => {
               </div>
             ) : (
               <button className="w-full border border-white/20 py-2 font-mono text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors">
-                Генерировать Ключ
+                {content.generateKey}
               </button>
             )}
           </div>

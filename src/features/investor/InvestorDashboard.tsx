@@ -5,30 +5,32 @@ import { usePortfolio } from '../../hooks/usePortfolio';
 import { useProducts } from '../../hooks/useProducts';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { generateEquityCurve } from '../../utils/mockData';
+import { CONTENT } from '../../constants/content';
 
 export const InvestorDashboard: React.FC = () => {
   const { profile } = useAuth();
   const { portfolio, loading: portfolioLoading } = usePortfolio(profile?.id);
   const { products, loading: productsLoading } = useProducts();
+  const content = CONTENT.investor;
 
   const equityData = generateEquityCurve(90, 100000, portfolio?.balance_usdt || 125000);
 
   const statCards = [
     {
       icon: DollarSign,
-      label: 'Текущий Капитал',
+      label: content.currentCapital,
       value: `$${portfolio?.balance_usdt?.toLocaleString() || '0'}`,
       color: 'emerald'
     },
     {
       icon: TrendingUp,
-      label: 'Активные Инвестиции',
+      label: content.activeAllocations,
       value: `$${portfolio?.active_deposits?.toLocaleString() || '0'}`,
       color: 'cyan'
     },
     {
       icon: PieChart,
-      label: 'Начисленная Прибыль',
+      label: content.accruedProfit,
       value: `$${portfolio?.total_earnings?.toLocaleString() || '0'}`,
       color: 'amber'
     },
@@ -45,7 +47,7 @@ export const InvestorDashboard: React.FC = () => {
   if (portfolioLoading || productsLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-white font-mono text-sm animate-pulse">ЗАГРУЗКА ДАННЫХ...</div>
+        <div className="text-white font-mono text-sm animate-pulse">LOADING DATA...</div>
       </div>
     );
   }
@@ -54,9 +56,9 @@ export const InvestorDashboard: React.FC = () => {
     <div className="p-8 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-4xl font-bold tracking-tighter mb-2">ОБЗОР КАПИТАЛА</h1>
+        <h1 className="text-4xl font-bold tracking-tighter mb-2">{content.title}</h1>
         <p className="font-mono text-xs text-white/50">
-          Последнее обновление: {new Date().toLocaleString('ru-RU')}
+          Last updated: {new Date().toLocaleString('en-US')}
         </p>
       </div>
 
@@ -86,7 +88,7 @@ export const InvestorDashboard: React.FC = () => {
 
       {/* Equity Chart */}
       <div className="border border-white/10 bg-black p-6">
-        <h2 className="text-xl font-bold tracking-tight mb-6">Рост Капитала</h2>
+        <h2 className="text-xl font-bold tracking-tight mb-6">{content.growth}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={equityData}>
             <defs>
@@ -127,7 +129,7 @@ export const InvestorDashboard: React.FC = () => {
 
       {/* Products */}
       <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-6">Инвестиционные Продукты</h2>
+        <h2 className="text-2xl font-bold tracking-tight mb-6">{content.products}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.map((product) => (
             <div
@@ -157,12 +159,12 @@ export const InvestorDashboard: React.FC = () => {
                 {product.description}
               </p>
               <div className="space-y-2 mb-4 font-mono text-xs text-white/40">
-                <div>Период блокировки: {product.lock_period_days} дней</div>
-                <div>Мин. инвестиция: ${product.min_investment.toLocaleString()}</div>
-                <div>Вывод: {product.withdrawal_frequency}</div>
+                <div>{content.lockPeriod}: {product.lock_period_days} days</div>
+                <div>{content.minAllocation}: ${product.min_investment.toLocaleString()}</div>
+                <div>{content.settlement}: {product.withdrawal_frequency}</div>
               </div>
               <button className="w-full bg-white text-black py-3 font-bold text-sm tracking-widest uppercase hover:bg-white/90 transition-colors">
-                Разместить Депозит
+                {content.allocate}
               </button>
             </div>
           ))}

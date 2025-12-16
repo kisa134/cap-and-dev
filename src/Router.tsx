@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Landing } from './features/public/Landing';
+import Manifesto from './features/public/Manifesto';
+import CapitalPage from './features/public/CapitalPage';
+import EpistemePage from './features/public/EpistemePage';
 import { Login } from './features/auth/Login';
 import { Register } from './features/auth/Register';
 import { AuthGuard } from './features/auth/AuthGuard';
@@ -14,6 +17,9 @@ export const Router: React.FC = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Landing />} />
+        <Route path="/manifesto" element={<Manifesto />} />
+        <Route path="/capital" element={<CapitalPage />} />
+        <Route path="/episteme" element={<EpistemePage />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
 
