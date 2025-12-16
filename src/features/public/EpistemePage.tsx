@@ -1,303 +1,279 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT } from '../../constants/content';
-import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Footer } from '../../components/Footer';
-import { contactService } from '../../services/api/contactService';
+import { AnimatedCode } from '../../components/effects/AnimatedCode';
+import { CodeHighlight } from '../../components/effects/CodeHighlight';
 
 export default function EpistemePage() {
   const navigate = useNavigate();
   const content = CONTENT.episteme;
+  const toolkitRef = useRef<HTMLElement>(null);
+
+  const [registerForm, setRegisterForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+  });
 
   const [contactForm, setContactForm] = useState({
-    name: '',
     email: '',
     message: '',
   });
 
-  const [registrationForm, setRegistrationForm] = useState({
-    fullName: '',
-    email: '',
-    telegram: '',
-  });
-
-  const [contactLoading, setContactLoading] = useState(false);
-  const [contactSuccess, setContactSuccess] = useState(false);
-  const [contactError, setContactError] = useState<string | null>(null);
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setContactLoading(true);
-    setContactError(null);
-
-    try {
-      await contactService.submitContactForm({
-        ...contactForm,
-        subject: 'Episteme Inquiry',
-        page_source: 'episteme',
-      });
-      setContactSuccess(true);
-      setContactForm({ name: '', email: '', message: '' });
-    } catch (err: any) {
-      setContactError(err.message || 'Failed to send message');
-    } finally {
-      setContactLoading(false);
-    }
-  };
-
-  const handleRegistrationSubmit = (e: React.FormEvent) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     navigate('/auth/register');
   };
 
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Contact submitted:', contactForm);
+  };
+
+  const scrollToToolkit = () => {
+    toolkitRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-20">
-          <button
-            onClick={() => navigate('/')}
-            className="text-xs uppercase tracking-widest font-mono text-white/40 hover:text-white mb-8 transition-colors"
-          >
-            ← Back
-          </button>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <AnimatedCode />
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-8 leading-tight">
             {content.hero.title}
           </h1>
-          <p className="text-white/60 text-lg font-mono tracking-wide uppercase">
+          <p className="text-xl md:text-2xl text-gray-400 font-light tracking-wide mb-12 max-w-3xl mx-auto">
             {content.hero.subtitle}
           </p>
-        </div>
-      </div>
 
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <div className="space-y-6 text-white/80 leading-relaxed">
-          <p><span className="text-white/40">Fact:</span> {content.intro.fact}</p>
-          <p><span className="text-white/40">Promise:</span> {content.intro.promise}</p>
-          <p><span className="text-white/40">Fact:</span> {content.intro.fact2}</p>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
-          <Card variant="bordered" padding="lg" hoverable>
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                Course
-              </span>
-              <span className="text-xs font-mono text-white/40">
-                {content.products.theory.access}
-              </span>
-            </div>
-
-            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
-              {content.products.theory.name}
-            </h3>
-
-            <div className="text-lg mb-8 text-white/60">
-              {content.products.theory.subtitle}
-            </div>
-
-            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
-              <div className="flex justify-between text-white/60">
-                <span>Duration:</span>
-                <span className="text-white font-mono">{content.products.theory.duration}</span>
-              </div>
-              <div className="flex justify-between text-white/60">
-                <span>Access Level:</span>
-                <span className="text-white font-mono">{content.products.theory.access}</span>
-              </div>
-            </div>
-
-            <p className="text-white/60 text-sm leading-relaxed mb-6">
-              {content.products.theory.description}
-            </p>
-
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button variant="primary" size="lg" onClick={scrollToToolkit}>
+              {content.hero.cta.explore}
+            </Button>
             <Button
               variant="secondary"
-              size="md"
-              fullWidth
-              onClick={() => navigate('/products/theory')}
+              size="lg"
+              onClick={() => navigate('/auth/register')}
             >
-              Learn More
+              {content.hero.cta.register}
             </Button>
-          </Card>
+          </div>
+        </div>
+      </section>
 
-          <Card variant="bordered" padding="lg" hoverable>
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                Software
-              </span>
-              <span className="text-xs font-mono text-white/40">
-                {content.products.tools.access}
-              </span>
-            </div>
+      <section className="max-w-5xl mx-auto px-6 py-32">
+        <div className="border-l-2 border-cyan-500/20 pl-12 space-y-8">
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.fact1}
+          </p>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.promise}
+          </p>
+          <p className="text-gray-300 text-lg leading-relaxed">
+            {content.fpf.fact2}
+          </p>
+        </div>
+      </section>
 
-            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
-              {content.products.tools.name}
-            </h3>
+      <section ref={toolkitRef} className="max-w-7xl mx-auto px-6 py-32">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.toolkit.title}
+        </h2>
 
-            <div className="text-lg mb-8 text-white/60">
-              {content.products.tools.subtitle}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {content.toolkit.products.map((product, idx) => (
+            <div
+              key={idx}
+              className="border border-gray-800 bg-black p-8 hover:border-cyan-500/50 transition-all duration-300 group relative overflow-hidden"
+            >
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  background:
+                    'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(6, 182, 212, 0.03) 2px, rgba(6, 182, 212, 0.03) 4px)',
+                }}
+              />
 
-            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
-              <div className="flex justify-between text-white/60">
-                <span>Platform:</span>
-                <span className="text-white font-mono">{content.products.tools.platform}</span>
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">
+                  {product.name}
+                </h3>
+                <p className="text-cyan-500/70 text-sm font-mono uppercase tracking-wider mb-6">
+                  {product.subtitle}
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                  {product.description}
+                </p>
+
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  fullWidth
+                  onClick={() => navigate(product.link)}
+                >
+                  Learn More →
+                </Button>
               </div>
-              <div className="flex justify-between text-white/60">
-                <span>Access Level:</span>
-                <span className="text-white font-mono">{content.products.tools.access}</span>
-              </div>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <p className="text-white/60 text-sm leading-relaxed mb-6">
-              {content.products.tools.description}
+      <section className="max-w-7xl mx-auto px-6 py-32">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.precision.title}
+        </h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="space-y-6">
+            <p className="text-gray-300 text-lg leading-relaxed">
+              {content.precision.description}
             </p>
 
-            <Button
-              variant="secondary"
-              size="md"
-              fullWidth
-              onClick={() => navigate('/products/tools')}
-            >
-              Learn More
-            </Button>
-          </Card>
-        </div>
+            <div className="border-l-2 border-cyan-500/20 pl-6">
+              <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider mb-2">
+                Transparent
+              </p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                Every indicator is fully documented with clear mathematical definitions and
+                implementation details.
+              </p>
 
-        <div className="max-w-4xl mx-auto border border-white/10 p-12 mb-16">
-          <h2 className="text-3xl font-bold uppercase tracking-tight mb-6 text-center">
-            Already an Expert?
+              <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider mb-2">
+                Performant
+              </p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                Built with Rust and optimized for low-latency execution in live trading
+                environments.
+              </p>
+
+              <p className="text-cyan-400 font-mono text-sm uppercase tracking-wider mb-2">
+                Testable
+              </p>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Comprehensive backtesting framework included with every tool for systematic
+                validation.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <CodeHighlight code={content.precision.codeExample} />
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 py-32">
+        <div className="border-2 border-cyan-500/30 p-12 bg-cyan-500/5">
+          <h2 className="text-4xl font-bold uppercase tracking-tight mb-6 text-center">
+            {content.propTrading.title}
           </h2>
-          <p className="text-white/70 text-center mb-8 leading-relaxed">
-            If you're a successful trader or mathematician with a proven track record, consider joining our
-            proprietary trading program. Trade our capital, keep a significant share of the profits, and
-            eliminate personal risk.
+          <p className="text-gray-300 text-lg leading-relaxed mb-8 text-center max-w-3xl mx-auto">
+            {content.propTrading.description}
           </p>
           <div className="flex justify-center">
             <Button
-              variant="primary"
+              variant="secondary"
               size="lg"
-              onClick={() => navigate('/proptrading')}
+              onClick={() => navigate(content.propTrading.link)}
             >
-              Learn About Prop Trading
+              {content.propTrading.buttonText}
             </Button>
           </div>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      <section className="max-w-7xl mx-auto px-6 py-32 border-t border-gray-800">
+        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
+          {content.finalCTA.title}
+        </h2>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-2xl font-bold uppercase tracking-tight mb-6">
-              Have Questions?
-            </h2>
-            <Card variant="bordered" padding="lg">
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <Input
-                  label="Name"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  required
-                  fullWidth
-                />
+            <h3 className="text-2xl font-bold mb-6">
+              {content.finalCTA.registerForm.title}
+            </h3>
+            <form onSubmit={handleRegisterSubmit} className="space-y-6">
+              <Input
+                label={content.finalCTA.registerForm.fields.fullName}
+                type="text"
+                required
+                value={registerForm.fullName}
+                onChange={(e) =>
+                  setRegisterForm({ ...registerForm, fullName: e.target.value })
+                }
+              />
 
-                <Input
-                  label="Email"
-                  type="email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  required
-                  fullWidth
-                />
+              <Input
+                label={content.finalCTA.registerForm.fields.email}
+                type="email"
+                required
+                value={registerForm.email}
+                onChange={(e) =>
+                  setRegisterForm({ ...registerForm, email: e.target.value })
+                }
+              />
 
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-mono">
-                    Message
-                  </label>
-                  <textarea
-                    value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    className="w-full bg-black border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:border-white focus:outline-none transition-colors font-mono text-sm resize-none"
-                    rows={4}
-                    required
-                  />
-                </div>
+              <Input
+                label={content.finalCTA.registerForm.fields.password}
+                type="password"
+                required
+                value={registerForm.password}
+                onChange={(e) =>
+                  setRegisterForm({ ...registerForm, password: e.target.value })
+                }
+              />
 
-                {contactSuccess && (
-                  <div className="border border-emerald-500/50 bg-emerald-500/10 px-4 py-3">
-                    <p className="text-emerald-400 text-sm font-mono">
-                      Message sent successfully. We'll respond within 24 hours.
-                    </p>
-                  </div>
-                )}
-
-                {contactError && (
-                  <div className="border border-red-500/50 bg-red-500/10 px-4 py-3">
-                    <p className="text-red-400 text-sm font-mono">{contactError}</p>
-                  </div>
-                )}
-
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  size="lg"
-                  fullWidth
-                  loading={contactLoading}
-                >
-                  Send Message
-                </Button>
-              </form>
-            </Card>
+              <Button type="submit" variant="primary" fullWidth>
+                {content.finalCTA.registerForm.submitButton}
+              </Button>
+            </form>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold uppercase tracking-tight mb-6">
-              Create Account
-            </h2>
-            <Card variant="bordered" padding="lg">
-              <form onSubmit={handleRegistrationSubmit} className="space-y-6">
-                <Input
-                  label="Full Name"
-                  value={registrationForm.fullName}
-                  onChange={(e) => setRegistrationForm({ ...registrationForm, fullName: e.target.value })}
-                  required
-                  fullWidth
-                />
+            <h3 className="text-2xl font-bold mb-2">
+              {content.finalCTA.contactForm.title}
+            </h3>
+            <p className="text-gray-400 text-sm mb-6">
+              {content.finalCTA.contactForm.description}
+            </p>
+            <form onSubmit={handleContactSubmit} className="space-y-6">
+              <Input
+                label={content.finalCTA.contactForm.fields.email}
+                type="email"
+                required
+                value={contactForm.email}
+                onChange={(e) =>
+                  setContactForm({ ...contactForm, email: e.target.value })
+                }
+              />
 
-                <Input
-                  label="Email"
-                  type="email"
-                  value={registrationForm.email}
-                  onChange={(e) => setRegistrationForm({ ...registrationForm, email: e.target.value })}
+              <div>
+                <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
+                  {content.finalCTA.contactForm.fields.message}
+                </label>
+                <textarea
                   required
-                  fullWidth
+                  value={contactForm.message}
+                  onChange={(e) =>
+                    setContactForm({ ...contactForm, message: e.target.value })
+                  }
+                  className="w-full bg-black border border-gray-800 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors resize-none"
+                  rows={5}
                 />
+              </div>
 
-                <Input
-                  label="Telegram"
-                  value={registrationForm.telegram}
-                  onChange={(e) => setRegistrationForm({ ...registrationForm, telegram: e.target.value })}
-                  placeholder="@username"
-                  required
-                  fullWidth
-                />
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  fullWidth
-                >
-                  Register
-                </Button>
-              </form>
-            </Card>
+              <Button type="submit" variant="secondary" fullWidth>
+                {content.finalCTA.contactForm.submitButton}
+              </Button>
+            </form>
           </div>
         </div>
-      </div>
+      </section>
 
       <Footer />
     </div>

@@ -223,56 +223,92 @@ export const CONTENT = {
   episteme: {
     hero: {
       title: "Institutional-Grade Instruments for Systematic Trading.",
-      subtitle: "Market Structure | Institutional Tools | Capital Qualification"
+      subtitle: "The toolkit that separates institutional alpha from retail noise.",
+      cta: {
+        explore: "Explore the Toolkit",
+        register: "Create Account"
+      }
     },
-    intro: {
-      fact: "The primary barrier between retail and institutional trading outcomes is not talent; it is access to robust, non-public tools and frameworks. Retail traders are inundated with lagging indicators and flawed 'signal' systems.",
+    fpf: {
+      fact1: "The primary barrier between retail and institutional trading outcomes is not talent; it is access to robust, non-public tools and frameworks. Retail traders are inundated with lagging indicators and flawed 'signal' systems.",
       promise: "Episteme bridges this gap. We provide the definitive toolkit for traders committed to a systematic, evidence-based approach. Our products are not shortcuts; they are institutional-grade instruments designed to help you architect, test, and deploy robust trading systems with precision.",
       fact2: "Our suite includes advanced, predictive indicators built on market microstructure analysis, comprehensive theoretical courses on system design, and direct access to our proprietary quantitative research. These are the same tools our internal trading desk utilizes for capital management."
     },
-    propTradingBlock: {
-      title: "Join Our Proprietary Trading Desk.",
-      description: "We are actively seeking traders who demonstrate a systematic edge. If you have a proven track record, we provide the capital.",
-      buttonText: "Apply for Prop Trading"
+    toolkit: {
+      title: "The Episteme Toolkit",
+      products: [
+        {
+          name: "Theory Core",
+          subtitle: "First-Principle Education",
+          description: "Deconstruct market structure. Learn to build robust trading systems from the ground up, not from recycled patterns.",
+          link: "/products/theory"
+        },
+        {
+          name: "Terminal Tools",
+          subtitle: "Predictive Indicator Suite",
+          description: "Access the non-public, quantitative indicators our proprietary desk uses for execution and risk management.",
+          link: "/products/tools"
+        },
+        {
+          name: "System Architecture",
+          subtitle: "One-on-One Strategy Validation",
+          description: "Have your trading system audited, stress-tested, and refined by our senior quantitative analysts.",
+          link: "/products/consulting"
+        }
+      ]
     },
-    products: {
-      theory: {
-        name: "Theory Core",
-        subtitle: "The Elementary Structure of Price",
-        duration: "8 hours",
-        access: "Tier B+",
-        description: "Fundamental understanding of market structure. Learn the physics of price formation. Not patterns—structural mechanics."
+    precision: {
+      title: "Engineered for Precision",
+      description: "Our tools are not black boxes. We believe in transparent, robust code built on a foundation of clean, performant logic. Every indicator and system component is rigorously tested and documented, providing you with instruments you can trust and integrate via our API.",
+      codeExample: `fn calculate_realized_volatility(
+  prices: &[f64],
+  window: usize
+) -> Vec<f64> {
+  prices
+    .windows(window)
+    .map(|w| {
+      let returns: Vec<f64> = w
+        .windows(2)
+        .map(|pair| (pair[1] / pair[0]).ln())
+        .collect();
+
+      let mean = returns.iter().sum::<f64>() / returns.len() as f64;
+      let variance = returns
+        .iter()
+        .map(|r| (r - mean).powi(2))
+        .sum::<f64>() / returns.len() as f64;
+
+      variance.sqrt() * (252.0_f64).sqrt()
+    })
+    .collect()
+}`
+    },
+    propTrading: {
+      title: "You Have the Edge. We Have the Capital.",
+      description: "For traders with a proven, systematic track record, our tools are just the beginning. We are actively seeking talent for our proprietary trading desk. If you can demonstrate a consistent, quantifiable edge, we provide the capital and infrastructure for you to scale.",
+      buttonText: "Apply for Prop Trading",
+      link: "/proptrading"
+    },
+    finalCTA: {
+      title: "Access the Episteme Ecosystem.",
+      registerForm: {
+        title: "Create Your Account",
+        fields: {
+          fullName: "Full Name",
+          email: "Email",
+          password: "Password"
+        },
+        submitButton: "Register"
       },
-      tools: {
-        name: "Terminal Tools",
-        subtitle: "Institutional Indicators & Dashboards",
-        platform: "TradingView Integration",
-        access: "Tier A+",
-        description: "Proprietary indicator suite for TradingView. Institutional-grade analytics. API integration for automated systems."
-      },
-      prop: {
-        name: "Proprietary Fund",
-        subtitle: "Capital Management Qualification",
-        evaluation: "Merit-Based",
-        access: "Tier S",
-        description: "Evaluation challenge for funded trader status. Merit-based capital allocation. Performance metrics: Win Rate, Drawdown, Profit Factor."
+      contactForm: {
+        title: "Have a Question?",
+        description: "For technical inquiries or questions about our products, get in touch.",
+        fields: {
+          email: "Email",
+          message: "Your Message"
+        },
+        submitButton: "Send Inquiry"
       }
-    },
-    form: {
-      title: "Request Access",
-      fullName: "Full Name",
-      email: "Email",
-      experience: "Trading Experience",
-      experienceOptions: [
-        "< 1 year",
-        "1-3 years",
-        "3-5 years",
-        "5+ years"
-      ],
-      telegram: "Telegram Handle",
-      disclaimer: "I confirm understanding of evaluation requirements",
-      submit: "Submit Application",
-      success: "Application submitted successfully. We will contact you within 24 hours."
     }
   },
 
