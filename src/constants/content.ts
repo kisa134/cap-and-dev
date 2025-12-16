@@ -48,39 +48,60 @@ export const CONTENT = {
   },
 
   manifesto: {
-    title: "Core Protocol & Philosophy",
-    mission: {
-      title: "Trust is an Algorithm",
+    hero: {
+      title: "The Architecture of Principle-Based Finance.",
+      subtitle: "We don't predict markets. We engineer systems that operate within them."
+    },
+    section01: {
+      number: "01",
+      title: "The Flawed Paradigm",
       content: [
-        "Order in Chaos.",
-        "Uncovering the elementary structure of price.",
-        "",
-        "We do not rely on reputation.",
-        "We rely on cryptographic proof and immutable logic."
+        "The modern financial industry is built on a foundation of sand: forecasting. Pundits, analysts, and portfolio managers sell narratives, attempting to predict the inherently unpredictable behavior of complex, non-linear systems.",
+        "This model is structurally flawed. It encourages emotional decision-making, exposes capital to unquantifiable \"black swan\" events, and consistently fails to deliver repeatable, non-correlated returns. It is a system designed to generate fees, not alpha. We reject this paradigm in its entirety."
       ]
     },
-    capital: {
-      title: "The Capital Dilemma",
+    section02: {
+      number: "02",
+      title: "The COGITO Thesis",
       content: [
-        "Statistical advantage through algorithmic verification.",
-        "",
-        "Audited transparency.",
-        "Variance control.",
-        "No human bias."
+        "COGITO was founded on a single thesis: sustainable profit is not found by predicting the future, but by engineering systems that exploit the inherent, mathematical structure of the market itself.",
+        "We approach markets not as storytellers, but as engineers. We deconstruct price action to its first principles—order flow, liquidity, and volatility. From these fundamental components, we build robust, non-discretionary models designed for one purpose: to execute a statistically-proven edge with machinelike discipline."
       ]
     },
-    episteme: {
-      title: "The Trader Dilemma",
-      content: [
-        "Market Physics.",
-        "Not patterns, but structural mechanics.",
-        "",
-        "Fast-track to institutional capital through meritocracy."
+    section03: {
+      number: "03",
+      title: "Core Principles",
+      principles: [
+        {
+          number: "03.1",
+          title: "First-Principle Thinking",
+          content: "We do not accept industry dogma. Every strategy begins by questioning assumptions and deconstructing the problem to its most fundamental truths. If a model cannot be explained by logic and mathematics, it is discarded."
+        },
+        {
+          number: "03.2",
+          title: "Systematic by Default",
+          content: "All execution is algorithmic. All risk is pre-defined. By removing human emotion and discretionary intervention from the execution process, we eliminate the primary point of failure in most trading operations."
+        },
+        {
+          number: "03.3",
+          title: "Radical Transparency",
+          content: "We believe in showing our work. Our methodologies are documented, our performance is reported with institutional-grade clarity, and our models are subject to constant, rigorous validation. We build trust through data, not marketing."
+        },
+        {
+          number: "03.4",
+          title: "Skin in the Game",
+          content: "We are the primary users of our own technology. Our capital is deployed in the same systems and strategies offered to our clients and partners. Our success is structurally aligned with yours."
+        }
       ]
     },
-    regulatory: "Regulatory Framework:",
-    badges: ["DIFC", "ADGM", "DMCC"],
-    cta: "Enter the Protocol"
+    cta: {
+      title: "Engage with the System.",
+      buttons: [
+        { text: "Explore Investment Vehicles", route: "/capital" },
+        { text: "Access Trading Instruments", route: "/episteme" },
+        { text: "Join the Team", route: "/work-with-us" }
+      ]
+    }
   },
 
   capital: {
