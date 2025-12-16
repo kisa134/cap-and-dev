@@ -16,6 +16,9 @@ import Career from './features/partnership/Career';
 import Agents from './features/partnership/Agents';
 import Referral from './features/partnership/Referral';
 import PropTrading from './features/proptrading/PropTrading';
+import TheoryProduct from './features/products/TheoryProduct';
+import ToolsProduct from './features/products/ToolsProduct';
+import ConsultingProduct from './features/products/ConsultingProduct';
 
 export const Router: React.FC = () => {
   return (
@@ -36,6 +39,11 @@ export const Router: React.FC = () => {
         <Route path="/agents" element={<Agents />} />
         <Route path="/referral" element={<Referral />} />
         <Route path="/proptrading" element={<PropTrading />} />
+
+        {/* Product Routes */}
+        <Route path="/products/theory" element={<TheoryProduct />} />
+        <Route path="/products/tools" element={<ToolsProduct />} />
+        <Route path="/products/consulting" element={<ConsultingProduct />} />
 
         {/* Protected Investor Routes */}
         <Route

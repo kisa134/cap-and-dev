@@ -1,270 +1,348 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CONTENT } from '../../constants/content';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
+import { Footer } from '../../components/Footer';
+import { contactService } from '../../services/api/contactService';
 
 export default function EpistemePage() {
   const navigate = useNavigate();
   const content = CONTENT.episteme;
-  const [formData, setFormData] = useState({
+
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const [registrationForm, setRegistrationForm] = useState({
     fullName: '',
     email: '',
-    experience: '',
     telegram: '',
-    disclaimer: false
   });
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
+  const [contactError, setContactError] = useState<string | null>(null);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        fullName: '',
-        email: '',
-        experience: '',
-        telegram: '',
-        disclaimer: false
+    setContactLoading(true);
+    setContactError(null);
+
+    try {
+      await contactService.submitContactForm({
+        ...contactForm,
+        subject: 'Episteme Inquiry',
+        page_source: 'episteme',
       });
-    }, 3000);
+      setContactSuccess(true);
+      setContactForm({ name: '', email: '', message: '' });
+    } catch (err: any) {
+      setContactError(err.message || 'Failed to send message');
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
+  const handleRegistrationSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate('/auth/register');
   };
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <div className="border-b border-cyan-500/20 bg-gradient-to-b from-cyan-950/20 to-transparent">
-        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4 text-cyan-400">
+      <div className="border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-20">
+          <button
+            onClick={() => navigate('/')}
+            className="text-xs uppercase tracking-widest font-mono text-white/40 hover:text-white mb-8 transition-colors"
+          >
+            ← Back
+          </button>
+
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
             {content.hero.title}
           </h1>
-          <p className="text-gray-400 text-sm md:text-base tracking-wider uppercase font-mono">
+          <p className="text-white/60 text-lg font-mono tracking-wide uppercase">
             {content.hero.subtitle}
           </p>
         </div>
       </div>
 
-      {/* Product Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Theory Core */}
-          <div className="border border-cyan-500/30 rounded-lg p-8 bg-cyan-500/5 hover:border-cyan-500/60 hover:bg-cyan-500/10 transition-all duration-300 group">
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="space-y-6 text-white/80 leading-relaxed">
+          <p><span className="text-white/40">Fact:</span> {content.intro.fact1}</p>
+          <p><span className="text-white/40">Promise:</span> {content.intro.promise}</p>
+          <p><span className="text-white/40">Fact:</span> {content.intro.fact2}</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <Card variant="bordered" padding="lg" hoverable>
             <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-cyan-400/60 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
                 Course
               </span>
-              <span className="text-xs font-mono text-gray-500">
+              <span className="text-xs font-mono text-white/40">
                 {content.products.theory.access}
               </span>
             </div>
 
-            <h3 className="text-3xl font-bold mb-2 text-cyan-400">
+            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
               {content.products.theory.name}
             </h3>
 
-            <div className="text-xl font-semibold mb-8 text-gray-300 group-hover:text-cyan-300 transition-colors">
+            <div className="text-lg mb-8 text-white/60">
               {content.products.theory.subtitle}
             </div>
 
-            <div className="space-y-3 mb-8 text-sm">
-              <div className="flex justify-between text-gray-400">
+            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
+              <div className="flex justify-between text-white/60">
                 <span>Duration:</span>
-                <span className="text-white">{content.products.theory.duration}</span>
+                <span className="text-white font-mono">{content.products.theory.duration}</span>
               </div>
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-white/60">
                 <span>Access Level:</span>
-                <span className="text-cyan-400">{content.products.theory.access}</span>
+                <span className="text-white font-mono">{content.products.theory.access}</span>
               </div>
             </div>
 
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
               {content.products.theory.description}
             </p>
-          </div>
 
-          {/* Terminal Tools */}
-          <div className="border border-cyan-500/40 rounded-lg p-8 bg-cyan-500/10 hover:border-cyan-500/70 hover:bg-cyan-500/15 transition-all duration-300 group md:scale-105">
+            <Button
+              variant="secondary"
+              size="md"
+              fullWidth
+              onClick={() => navigate('/products/theory')}
+            >
+              Learn More
+            </Button>
+          </Card>
+
+          <Card variant="bordered" padding="lg" hoverable>
             <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-cyan-300/80 uppercase tracking-wider">
+              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
                 Software
               </span>
-              <span className="text-xs font-mono text-yellow-500">
+              <span className="text-xs font-mono text-white/40">
                 {content.products.tools.access}
               </span>
             </div>
 
-            <h3 className="text-3xl font-bold mb-2 text-cyan-300">
+            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
               {content.products.tools.name}
             </h3>
 
-            <div className="text-xl font-semibold mb-8 text-gray-300 group-hover:text-cyan-200 transition-colors">
+            <div className="text-lg mb-8 text-white/60">
               {content.products.tools.subtitle}
             </div>
 
-            <div className="space-y-3 mb-8 text-sm">
-              <div className="flex justify-between text-gray-400">
+            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
+              <div className="flex justify-between text-white/60">
                 <span>Platform:</span>
-                <span className="text-white">{content.products.tools.platform}</span>
+                <span className="text-white font-mono">{content.products.tools.platform}</span>
               </div>
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-white/60">
                 <span>Access Level:</span>
-                <span className="text-cyan-300">{content.products.tools.access}</span>
+                <span className="text-white font-mono">{content.products.tools.access}</span>
               </div>
             </div>
 
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
               {content.products.tools.description}
             </p>
-          </div>
 
-          {/* Proprietary Fund */}
-          <div className="border border-purple-500/40 rounded-lg p-8 bg-gradient-to-br from-purple-500/10 via-cyan-500/10 to-emerald-500/10 hover:border-purple-500/70 transition-all duration-300 group relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-cyan-500/0 to-emerald-500/0 group-hover:from-purple-500/20 group-hover:via-cyan-500/20 group-hover:to-emerald-500/20 transition-all duration-700" />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-xs font-mono text-purple-300 uppercase tracking-wider">
-                  Challenge
-                </span>
-                <span className="text-xs font-mono text-purple-400 font-bold">
-                  {content.products.prop.access}
-                </span>
-              </div>
-
-              <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-                {content.products.prop.name}
-              </h3>
-
-              <div className="text-xl font-semibold mb-8 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                {content.products.prop.subtitle}
-              </div>
-
-              <div className="space-y-3 mb-8 text-sm">
-                <div className="flex justify-between text-gray-400">
-                  <span>Type:</span>
-                  <span className="text-white">{content.products.prop.evaluation}</span>
-                </div>
-                <div className="flex justify-between text-gray-400">
-                  <span>Access Level:</span>
-                  <span className="text-purple-400">{content.products.prop.access}</span>
-                </div>
-              </div>
-
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {content.products.prop.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="text-center">
-          <div className="inline-flex items-center gap-4">
-            <div className="h-px w-20 bg-gradient-to-r from-transparent to-cyan-500" />
-            <span className="text-cyan-400 font-mono text-sm tracking-[0.3em] uppercase">
-              {content.form.title}
-            </span>
-            <div className="h-px w-20 bg-gradient-to-l from-transparent to-cyan-500" />
-          </div>
-        </div>
-      </div>
-
-      {/* Application Form */}
-      <div className="max-w-2xl mx-auto px-6 pb-20">
-        <form onSubmit={handleSubmit} className="border border-cyan-500/30 rounded-lg p-8 bg-cyan-500/5 space-y-6">
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.fullName}
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              className="w-full bg-black border border-cyan-500/30 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.email}
-            </label>
-            <input
-              type="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full bg-black border border-cyan-500/30 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.experience}
-            </label>
-            <select
-              required
-              value={formData.experience}
-              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-              className="w-full bg-black border border-cyan-500/30 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
+            <Button
+              variant="secondary"
+              size="md"
+              fullWidth
+              onClick={() => navigate('/products/tools')}
             >
-              <option value="">Select experience level</option>
-              {content.form.experienceOptions.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
+              Learn More
+            </Button>
+          </Card>
+
+          <Card variant="bordered" padding="lg" hoverable>
+            <div className="flex items-center justify-between mb-6">
+              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
+                Service
+              </span>
+              <span className="text-xs font-mono text-white/40">
+                {content.products.consulting.access}
+              </span>
+            </div>
+
+            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
+              {content.products.consulting.name}
+            </h3>
+
+            <div className="text-lg mb-8 text-white/60">
+              {content.products.consulting.subtitle}
+            </div>
+
+            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
+              <div className="flex justify-between text-white/60">
+                <span>Format:</span>
+                <span className="text-white font-mono">{content.products.consulting.format}</span>
+              </div>
+              <div className="flex justify-between text-white/60">
+                <span>Access Level:</span>
+                <span className="text-white font-mono">{content.products.consulting.access}</span>
+              </div>
+            </div>
+
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
+              {content.products.consulting.description}
+            </p>
+
+            <Button
+              variant="secondary"
+              size="md"
+              fullWidth
+              onClick={() => navigate('/products/consulting')}
+            >
+              Learn More
+            </Button>
+          </Card>
+        </div>
+
+        <div className="max-w-4xl mx-auto border border-white/10 p-12 mb-16">
+          <h2 className="text-3xl font-bold uppercase tracking-tight mb-6 text-center">
+            Already an Expert?
+          </h2>
+          <p className="text-white/70 text-center mb-8 leading-relaxed">
+            If you're a successful trader or mathematician with a proven track record, consider joining our
+            proprietary trading program. Trade our capital, keep a significant share of the profits, and
+            eliminate personal risk.
+          </p>
+          <div className="flex justify-center">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => navigate('/proptrading')}
+            >
+              Learn About Prop Trading
+            </Button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div>
+            <h2 className="text-2xl font-bold uppercase tracking-tight mb-6">
+              Have Questions?
+            </h2>
+            <Card variant="bordered" padding="lg">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
+                <Input
+                  label="Name"
+                  value={contactForm.name}
+                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  required
+                  fullWidth
+                />
+
+                <Input
+                  label="Email"
+                  type="email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  required
+                  fullWidth
+                />
+
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-white/50 mb-2 font-mono">
+                    Message
+                  </label>
+                  <textarea
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    className="w-full bg-black border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:border-white focus:outline-none transition-colors font-mono text-sm resize-none"
+                    rows={4}
+                    required
+                  />
+                </div>
+
+                {contactSuccess && (
+                  <div className="border border-emerald-500/50 bg-emerald-500/10 px-4 py-3">
+                    <p className="text-emerald-400 text-sm font-mono">
+                      Message sent successfully. We'll respond within 24 hours.
+                    </p>
+                  </div>
+                )}
+
+                {contactError && (
+                  <div className="border border-red-500/50 bg-red-500/10 px-4 py-3">
+                    <p className="text-red-400 text-sm font-mono">{contactError}</p>
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
+                  variant="secondary"
+                  size="lg"
+                  fullWidth
+                  loading={contactLoading}
+                >
+                  Send Message
+                </Button>
+              </form>
+            </Card>
           </div>
 
           <div>
-            <label className="block text-sm font-mono text-gray-400 mb-2 uppercase tracking-wider">
-              {content.form.telegram}
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.telegram}
-              onChange={(e) => setFormData({ ...formData, telegram: e.target.value })}
-              className="w-full bg-black border border-cyan-500/30 rounded px-4 py-3 text-white focus:border-cyan-500 focus:outline-none transition-colors"
-              placeholder="@username"
-            />
+            <h2 className="text-2xl font-bold uppercase tracking-tight mb-6">
+              Create Account
+            </h2>
+            <Card variant="bordered" padding="lg">
+              <form onSubmit={handleRegistrationSubmit} className="space-y-6">
+                <Input
+                  label="Full Name"
+                  value={registrationForm.fullName}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, fullName: e.target.value })}
+                  required
+                  fullWidth
+                />
+
+                <Input
+                  label="Email"
+                  type="email"
+                  value={registrationForm.email}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, email: e.target.value })}
+                  required
+                  fullWidth
+                />
+
+                <Input
+                  label="Telegram"
+                  value={registrationForm.telegram}
+                  onChange={(e) => setRegistrationForm({ ...registrationForm, telegram: e.target.value })}
+                  placeholder="@username"
+                  required
+                  fullWidth
+                />
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                >
+                  Register
+                </Button>
+              </form>
+            </Card>
           </div>
-
-          <div className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              required
-              checked={formData.disclaimer}
-              onChange={(e) => setFormData({ ...formData, disclaimer: e.target.checked })}
-              className="mt-1 w-4 h-4 bg-black border border-cyan-500/30 rounded focus:ring-cyan-500"
-            />
-            <label className="text-sm text-gray-400">
-              {content.form.disclaimer}
-            </label>
-          </div>
-
-          {submitted && (
-            <div className="bg-cyan-500/20 border border-cyan-500/50 rounded p-4 text-cyan-300 text-sm">
-              {content.form.success}
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-semibold py-4 rounded transition-all duration-300 transform hover:scale-[1.02]"
-          >
-            {content.form.submit}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="w-full border border-cyan-500/30 hover:border-cyan-500/60 text-cyan-400 font-semibold py-3 rounded transition-all duration-300"
-          >
-            Back to Home
-          </button>
-        </form>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
