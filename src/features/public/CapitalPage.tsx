@@ -13,6 +13,22 @@ export default function CapitalPage() {
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    capitalSize: '',
+    telegram: '',
+    disclaimer: false,
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 5000);
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
@@ -261,6 +277,8 @@ export default function CapitalPage() {
           </button>
         </form>
       </div>
+
+      <Footer />
     </div>
   );
 }

@@ -74,14 +74,14 @@ export default function EpistemePage() {
 
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div className="space-y-6 text-white/80 leading-relaxed">
-          <p><span className="text-white/40">Fact:</span> {content.intro.fact1}</p>
+          <p><span className="text-white/40">Fact:</span> {content.intro.fact}</p>
           <p><span className="text-white/40">Promise:</span> {content.intro.promise}</p>
           <p><span className="text-white/40">Fact:</span> {content.intro.fact2}</p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto">
           <Card variant="bordered" padding="lg" hoverable>
             <div className="flex items-center justify-between mb-6">
               <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
@@ -163,49 +163,6 @@ export default function EpistemePage() {
               size="md"
               fullWidth
               onClick={() => navigate('/products/tools')}
-            >
-              Learn More
-            </Button>
-          </Card>
-
-          <Card variant="bordered" padding="lg" hoverable>
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                Service
-              </span>
-              <span className="text-xs font-mono text-white/40">
-                {content.products.consulting.access}
-              </span>
-            </div>
-
-            <h3 className="text-2xl font-bold mb-2 text-white uppercase tracking-tight">
-              {content.products.consulting.name}
-            </h3>
-
-            <div className="text-lg mb-8 text-white/60">
-              {content.products.consulting.subtitle}
-            </div>
-
-            <div className="space-y-3 mb-8 text-sm border-t border-white/10 pt-6">
-              <div className="flex justify-between text-white/60">
-                <span>Format:</span>
-                <span className="text-white font-mono">{content.products.consulting.format}</span>
-              </div>
-              <div className="flex justify-between text-white/60">
-                <span>Access Level:</span>
-                <span className="text-white font-mono">{content.products.consulting.access}</span>
-              </div>
-            </div>
-
-            <p className="text-white/60 text-sm leading-relaxed mb-6">
-              {content.products.consulting.description}
-            </p>
-
-            <Button
-              variant="secondary"
-              size="md"
-              fullWidth
-              onClick={() => navigate('/products/consulting')}
             >
               Learn More
             </Button>
