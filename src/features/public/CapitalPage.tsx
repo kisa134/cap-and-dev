@@ -169,57 +169,6 @@ export default function CapitalPage() {
       </section>
 
       <section className="max-w-7xl mx-auto px-6 py-32">
-        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
-          {content.vehicles.title}
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {content.vehicles.strategies.map((strategy, idx) => (
-            <div
-              key={idx}
-              className="border border-gray-800 bg-black p-8 hover:border-emerald-500/50 transition-all duration-300 group"
-            >
-              <h3 className="text-2xl font-bold mb-4 group-hover:text-emerald-400 transition-colors">
-                {strategy.name}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-8">
-                {strategy.description}
-              </p>
-
-              <div className="space-y-3 font-mono text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-500">ASSET CLASS:</span>
-                  <span className="text-white">{strategy.metrics.assetClass}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">TARGET SHARPE:</span>
-                  <span className="text-emerald-400">{strategy.metrics.targetSharpe}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">MAX DRAWDOWN:</span>
-                  <span className="text-white">{strategy.metrics.maxDrawdown}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">CORRELATION (SPX):</span>
-                  <span className="text-white">{strategy.metrics.correlation}</span>
-                </div>
-              </div>
-
-              <Button
-                variant="secondary"
-                size="sm"
-                fullWidth
-                onClick={() => setShowRequestModal(true)}
-                className="mt-8"
-              >
-                Request Fact Sheet
-              </Button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-6 py-32">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold uppercase tracking-tight mb-4">
             The COGITO Infrastructure
