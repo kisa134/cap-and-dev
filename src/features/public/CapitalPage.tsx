@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CONTENT } from '../../constants/content';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
@@ -7,6 +7,90 @@ import { Select } from '../../components/ui/Select';
 import { Footer } from '../../components/Footer';
 import { WireframeObject } from '../../components/effects/WireframeObject';
 import { EquityCurve } from '../../components/effects/EquityCurve';
+
+interface InfrastructureCardProps {
+  title: string;
+  stat: string;
+  description: string;
+}
+
+function InfrastructureCard({ title, stat, description }: InfrastructureCardProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [displayStat, setDisplayStat] = useState('');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    const element = document.getElementById(`stat-${title.replace(/\s+/g, '-')}`);
+    if (element) observer.observe(element);
+
+    return () => {
+      if (element) observer.unobserve(element);
+    };
+  }, [title]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const numericMatch = stat.match(/[\d,]+/);
+    if (numericMatch) {
+      const targetNumber = parseInt(numericMatch[0].replace(/,/g, ''), 10);
+      const duration = 2000;
+      const steps = 60;
+      const increment = targetNumber / steps;
+      let current = 0;
+      let step = 0;
+
+      const timer = setInterval(() => {
+        current += increment;
+        step++;
+
+        if (step >= steps) {
+          setDisplayStat(stat);
+          clearInterval(timer);
+        } else {
+          const formattedNumber = Math.floor(current).toLocaleString();
+          setDisplayStat(stat.replace(/[\d,]+/, formattedNumber));
+        }
+      }, duration / steps);
+
+      return () => clearInterval(timer);
+    } else {
+      let charIndex = 0;
+      const timer = setInterval(() => {
+        charIndex++;
+        setDisplayStat(stat.substring(0, charIndex));
+        if (charIndex >= stat.length) clearInterval(timer);
+      }, 50);
+
+      return () => clearInterval(timer);
+    }
+  }, [isVisible, stat]);
+
+  return (
+    <div
+      id={`stat-${title.replace(/\s+/g, '-')}`}
+      className="border border-gray-800 bg-black/50 p-8 hover:border-emerald-500/50 transition-all duration-500 group"
+    >
+      <div className="text-sm font-mono text-gray-500 mb-4 uppercase tracking-wider">
+        {title}
+      </div>
+      <div className="text-4xl md:text-5xl font-bold text-emerald-400 mb-6 font-mono min-h-[60px] flex items-center">
+        {displayStat || <span className="opacity-0">{stat}</span>}
+      </div>
+      <p className="text-gray-400 text-sm leading-relaxed">
+        {description}
+      </p>
+    </div>
+  );
+}
 
 export default function CapitalPage() {
   const content = CONTENT.capital;
@@ -136,44 +220,46 @@ export default function CapitalPage() {
       </section>
 
       <section className="max-w-7xl mx-auto px-6 py-32">
-        <h2 className="text-5xl font-bold uppercase tracking-tight mb-16 text-center">
-          {content.performance.title}
-        </h2>
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-bold uppercase tracking-tight mb-4">
+            The COGITO Infrastructure
+          </h2>
+          <p className="text-xl text-gray-400">
+            The engine that drives our performance.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1">
-            <EquityCurve />
-          </div>
-
-          <div className="order-1 lg:order-2 space-y-8">
-            <div>
-              <div className="text-sm font-mono text-gray-500 mb-2">AGGREGATE YTD RETURN</div>
-              <div className="text-5xl font-mono font-bold text-emerald-400">
-                {content.performance.metrics.ytdReturn}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-sm font-mono text-gray-500 mb-2">3-YEAR CAGR</div>
-              <div className="text-5xl font-mono font-bold text-emerald-400">
-                {content.performance.metrics.cagr3Year}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-sm font-mono text-gray-500 mb-2">FIRM-WIDE SHARPE</div>
-              <div className="text-5xl font-mono font-bold text-emerald-400">
-                {content.performance.metrics.firmwideSharpe}
-              </div>
-            </div>
-
-            <div>
-              <div className="text-sm font-mono text-gray-500 mb-2">TOTAL AUM</div>
-              <div className="text-5xl font-mono font-bold text-white">
-                {content.performance.metrics.totalAUM}
-              </div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <InfrastructureCard
+            title="Our Researchers"
+            stat="25+"
+            description="Quantitative researchers, mathematicians, and systems engineers from leading academic and technology institutions."
+          />
+          <InfrastructureCard
+            title="Daily Data Ingestion"
+            stat="> 5 TB"
+            description="Our research database ingests and processes over 5 terabytes of raw market data daily, from tick-level order books to alternative datasets."
+          />
+          <InfrastructureCard
+            title="Computational Grid"
+            stat="1,200+ Cores"
+            description="A distributed computing grid dedicated to continuous backtesting, simulation, and machine learning model training."
+          />
+          <InfrastructureCard
+            title="Proprietary Code"
+            stat="> 500,000 Lines"
+            description="Of highly optimized, performance-first code written in Rust and C++, forming the core of our execution and risk systems."
+          />
+          <InfrastructureCard
+            title="Partner Capital"
+            stat="Significant"
+            description="Founders' and employees' capital is significantly invested in the same strategies offered to our clients. We have skin in the game."
+          />
+          <InfrastructureCard
+            title="Regulatory Framework"
+            stat="Fully Regulated"
+            description="Operating under the strict regulatory and compliance framework of DIFC and ADGM jurisdictions."
+          />
         </div>
       </section>
 
@@ -202,17 +288,17 @@ export default function CapitalPage() {
 
       <section className="max-w-5xl mx-auto px-6 py-32 text-center border-t border-gray-800">
         <h2 className="text-5xl font-bold uppercase tracking-tight mb-8">
-          {content.finalCTA.title}
+          Engage with the System.
         </h2>
-        <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
-          {content.finalCTA.subtitle}
+        <p className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+          If your investment philosophy aligns with our principles of systematic, data-driven asset management, we invite you to begin the onboarding process.
         </p>
         <Button
           variant="primary"
           size="lg"
           onClick={() => setShowRequestModal(true)}
         >
-          {content.finalCTA.buttonText}
+          Request Onboarding
         </Button>
       </section>
 
